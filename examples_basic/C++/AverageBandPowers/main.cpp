@@ -22,6 +22,14 @@
 #include <string>
 #include <fstream>
 
+#include "osc/OscOutboundPacketStream.h"
+#include "ip/UdpSocket.h"
+
+#define ADDRESS "127.0.0.1"
+#define PORT 7771
+
+#define OUTPUT_BUFFER_SIZE 1024
+
 extern "C"
 {
 #endif
@@ -57,6 +65,10 @@ int  main()
 
 	EmoEngineEventHandle eEvent	= IEE_EmoEngineEventCreate();
 	EmoStateHandle eState       = IEE_EmoStateCreate();
+
+	UdpTransmitSocket transmitSocket( IpEndpointName( ADDRESS, PORT ) );    
+	char buffer[OUTPUT_BUFFER_SIZE];
+    osc::OutboundPacketStream p( buffer, OUTPUT_BUFFER_SIZE );
 
 	unsigned int userID   = 0;
 	bool ready = false;
@@ -126,6 +138,21 @@ int  main()
 
 					std::cout << theta << "," << alpha << "," << low_beta << ",";
                     std::cout << high_beta << "," << gamma << std::endl;
+
+					p << osc::BeginBundleImmediate
+						<< osc::BeginMessage( "/eegtheta" ) 
+							<< (float)theta << osc::EndMessage
+						<< osc::BeginMessage( "/eeglowalpha" ) 
+							<< (float)alpha << osc::EndMessage
+						<< osc::BeginMessage( "/eeglowbeta" ) 
+							<< (float)low_beta << osc::EndMessage
+						<< osc::BeginMessage( "/eeghighbeta" ) 
+							<< (float)high_beta << osc::EndMessage
+						<< osc::BeginMessage( "/eegmidgamma" ) 
+							<< (float)gamma << osc::EndMessage
+						<< osc::EndBundle;
+    
+					transmitSocket.Send( p.Data(), p.Size() );
                 }
             }
 		}

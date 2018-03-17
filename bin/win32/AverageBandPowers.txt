@@ -1,0 +1,1 @@
+Theta, Alpha, Low_beta, High_beta, Gamma

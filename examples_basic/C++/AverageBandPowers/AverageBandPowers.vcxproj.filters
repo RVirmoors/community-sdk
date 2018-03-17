@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\..\..\..\oscpack_1_1_0\ip\IpEndpointName.cpp" />
+    <ClCompile Include="..\..\..\..\oscpack_1_1_0\ip\win32\NetworkingUtils.cpp" />
+    <ClCompile Include="..\..\..\..\oscpack_1_1_0\osc\OscOutboundPacketStream.cpp" />
+    <ClCompile Include="..\..\..\..\oscpack_1_1_0\osc\OscPrintReceivedElements.cpp" />
+    <ClCompile Include="..\..\..\..\oscpack_1_1_0\osc\OscReceivedElements.cpp" />
+    <ClCompile Include="..\..\..\..\oscpack_1_1_0\osc\OscTypes.cpp" />
+    <ClCompile Include="..\..\..\..\oscpack_1_1_0\ip\win32\UdpSocket.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="inc">
+      <UniqueIdentifier>{2ca55a37-9aaf-4f22-974f-0de137e25769}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\UdpSocket.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\IpEndpointName.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\MessageMappingOscPacketListener.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\NetworkingUtils.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscException.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscHostEndianness.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscOutboundPacketStream.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscPacketListener.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscPrintReceivedElements.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscReceivedElements.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscTypes.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\PacketListener.h" />
+    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\TimerListener.h" />
+  </ItemGroup>
+</Project>
