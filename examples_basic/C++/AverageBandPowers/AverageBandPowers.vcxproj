@@ -48,7 +48,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization />
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -97,7 +97,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)/$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/win32;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>edk.lib</AdditionalDependencies>
+      <AdditionalDependencies>edk.lib;winmm.lib;ws2_32.lib</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -105,7 +105,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../include;..\..\..\..\oscpack_1_1_0</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -114,7 +114,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)/$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/win64;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>edk.lib</AdditionalDependencies>
+      <AdditionalDependencies>edk.lib;winmm.lib;ws2_32.lib</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -124,7 +124,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../include;..\..\..\..\oscpack_1_1_0</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -134,7 +134,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/win32;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>edk.lib</AdditionalDependencies>
+      <AdditionalDependencies>edk.lib;winmm.lib;ws2_32.lib</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -144,7 +144,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../include;..\..\..\..\oscpack_1_1_0</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -154,7 +154,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>../../../lib/win64;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>edk.lib</AdditionalDependencies>
+      <AdditionalDependencies>edk.lib;winmm.lib;ws2_32.lib</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -167,21 +167,6 @@
     <ClCompile Include="..\..\..\..\oscpack_1_1_0\osc\OscReceivedElements.cpp" />
     <ClCompile Include="..\..\..\..\oscpack_1_1_0\osc\OscTypes.cpp" />
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\IpEndpointName.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\NetworkingUtils.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\PacketListener.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\TimerListener.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\UdpSocket.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\MessageMappingOscPacketListener.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscException.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscHostEndianness.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscOutboundPacketStream.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscPacketListener.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscPrintReceivedElements.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscReceivedElements.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscTypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

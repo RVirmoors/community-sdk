@@ -15,19 +15,4 @@
       <UniqueIdentifier>{2ca55a37-9aaf-4f22-974f-0de137e25769}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\UdpSocket.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\IpEndpointName.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\MessageMappingOscPacketListener.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\NetworkingUtils.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscException.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscHostEndianness.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscOutboundPacketStream.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscPacketListener.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscPrintReceivedElements.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscReceivedElements.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\osc\OscTypes.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\PacketListener.h" />
-    <ClInclude Include="..\..\..\..\oscpack_1_1_0\ip\TimerListener.h" />
-  </ItemGroup>
 </Project>
