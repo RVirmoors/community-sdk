@@ -68,13 +68,12 @@ int  main()
 
 	UdpTransmitSocket transmitSocket( IpEndpointName( ADDRESS, PORT ) );    
 	char buffer[OUTPUT_BUFFER_SIZE];
-    osc::OutboundPacketStream p( buffer, OUTPUT_BUFFER_SIZE );
 
 	unsigned int userID   = 0;
 	bool ready = false;
 	int state  = 0;
 
-	IEE_DataChannel_t channelList[] = { IED_AF3, IED_AF4, IED_T7, IED_T8, IED_Pz };
+	IEE_DataChannel_t channelList[] = { IED_AF3 }; // IED_AF4, IED_T7, IED_T8, IED_Pz
 #ifndef __APPLE__
 	std::string ouputFile = "AverageBandPowers.txt";
 #else
@@ -122,6 +121,7 @@ int  main()
 		if (ready)
 		{
             double alpha, low_beta, high_beta, gamma, theta;
+			IEE_EEG_ContactQuality_t cq;
             alpha = low_beta = high_beta = gamma = theta = 0;
 
             for(int i=0 ; i< sizeof(channelList)/sizeof(channelList[0]) ; ++i)
@@ -129,6 +129,13 @@ int  main()
                 int result = IEE_GetAverageBandPowers(userID, channelList[i], &theta, &alpha, 
 					                                     &low_beta, &high_beta, &gamma);
                 if(result == EDK_OK){
+
+					cq = IS_GetContactQuality(eState, (IEE_InputChannels_t)channelList[i]);
+
+					std::cout << "Signal quality: ";
+					std::cout << cq;
+                    std::cout << std::endl << endl;
+
                     ofs << theta << ",";
                     ofs << alpha << ",";
                     ofs << low_beta << ",";
@@ -136,10 +143,16 @@ int  main()
                     ofs << gamma << ",";
                     ofs << std::endl;
 
+
+
 					std::cout << theta << "," << alpha << "," << low_beta << ",";
                     std::cout << high_beta << "," << gamma << std::endl;
 
+					
+					osc::OutboundPacketStream p( buffer, OUTPUT_BUFFER_SIZE );    
 					p << osc::BeginBundleImmediate
+						<< osc::BeginMessage( "/signal" ) 
+							<< cq << osc::EndMessage
 						<< osc::BeginMessage( "/eegtheta" ) 
 							<< (float)theta << osc::EndMessage
 						<< osc::BeginMessage( "/eeglowalpha" ) 
@@ -151,8 +164,9 @@ int  main()
 						<< osc::BeginMessage( "/eegmidgamma" ) 
 							<< (float)gamma << osc::EndMessage
 						<< osc::EndBundle;
+
     
-					transmitSocket.Send( p.Data(), p.Size() );
+					transmitSocket.Send( p.Data(), p.Size() ); 
                 }
             }
 		}
