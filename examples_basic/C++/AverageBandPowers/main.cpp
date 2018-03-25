@@ -37,6 +37,7 @@ extern "C"
 #include "IEmoStateDLL.h"
 #include "Iedk.h"
 #include "IedkErrorCode.h"
+#include "IEmoStatePerformanceMetric.h"
 
 using namespace std;
 
@@ -136,17 +137,20 @@ int  main()
 					std::cout << cq;
                     std::cout << std::endl << endl;
 
-                    ofs << theta << ",";
-                    ofs << alpha << ",";
-                    ofs << low_beta << ",";
-                    ofs << high_beta << ",";
-                    ofs << gamma << ",";
-                    ofs << std::endl;
-
-
+					int emo = IS_PerformanceMetricIsActive(eState, PM_EXCITEMENT);
+					float excL = IS_PerformanceMetricGetExcitementLongTermScore(eState);
+					float exc = IS_PerformanceMetricGetInstantaneousExcitementScore(eState);
+					float rel =	IS_PerformanceMetricGetRelaxationScore(eState);
+					float str =	IS_PerformanceMetricGetStressScore(eState);
+					float eng =	IS_PerformanceMetricGetEngagementBoredomScore(eState);
+					float itr =	IS_PerformanceMetricGetInterestScore(eState);
+					float foc = IS_PerformanceMetricGetFocusScore(eState);
 
 					std::cout << theta << "," << alpha << "," << low_beta << ",";
                     std::cout << high_beta << "," << gamma << std::endl;
+
+					cout<<"excitation LT "<<excL<<", exc "<<exc<<", relax "<<rel<<", stress "<<str
+						<<", engage/bored "<<eng<<", interest "<<itr<<", focus"<<foc<<endl;
 
 					
 					osc::OutboundPacketStream p( buffer, OUTPUT_BUFFER_SIZE );    
@@ -163,6 +167,22 @@ int  main()
 							<< (float)high_beta << osc::EndMessage
 						<< osc::BeginMessage( "/eegmidgamma" ) 
 							<< (float)gamma << osc::EndMessage
+						<< osc::BeginMessage( "/emoOnOff" ) 
+							<< emo << osc::EndMessage
+						<< osc::BeginMessage( "/excLongTerm" ) 
+							<< (float)excL << osc::EndMessage
+						<< osc::BeginMessage( "/excitation" ) 
+							<< (float)exc << osc::EndMessage
+						<< osc::BeginMessage( "/relaxation" ) 
+							<< (float)rel << osc::EndMessage
+						<< osc::BeginMessage( "/stress" ) 
+							<< (float)str << osc::EndMessage
+						<< osc::BeginMessage( "/engagementBoredom" ) 
+							<< (float)eng << osc::EndMessage
+						<< osc::BeginMessage( "/interest" ) 
+							<< (float)itr << osc::EndMessage
+						<< osc::BeginMessage( "/focus" ) 
+							<< (float)foc << osc::EndMessage
 						<< osc::EndBundle;
 
     
