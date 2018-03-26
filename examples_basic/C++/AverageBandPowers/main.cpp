@@ -74,7 +74,7 @@ int  main()
 	bool ready = false;
 	int state  = 0;
 
-	IEE_DataChannel_t channelList[] = { IED_AF3 }; // IED_AF4, IED_T7, IED_T8, IED_Pz
+	IEE_DataChannel_t channelList[] = { IED_AF3, IED_AF4 }; // IED_AF4, IED_T7, IED_T8, IED_Pz
 #ifndef __APPLE__
 	std::string ouputFile = "AverageBandPowers.txt";
 #else
@@ -122,22 +122,45 @@ int  main()
 		if (ready)
 		{
             double alpha, low_beta, high_beta, gamma, theta;
+			double alphaB, low_betaB, high_betaB, gammaB, thetaB;
 			IEE_EEG_ContactQuality_t cq;
             alpha = low_beta = high_beta = gamma = theta = 0;
 
-            for(int i=0 ; i< sizeof(channelList)/sizeof(channelList[0]) ; ++i)
-            {
+//            for(int i=0 ; i< sizeof(channelList)/sizeof(channelList[0]) ; ++i)
+//            {
+			int i = 0;
                 int result = IEE_GetAverageBandPowers(userID, channelList[i], &theta, &alpha, 
 					                                     &low_beta, &high_beta, &gamma);
+				result = IEE_GetAverageBandPowers(userID, channelList[1], &thetaB, &alphaB, 
+					                                     &low_betaB, &high_betaB, &gammaB);
                 if(result == EDK_OK){
 
 					cq = IS_GetContactQuality(eState, (IEE_InputChannels_t)channelList[i]);
+					int cqInt = 0;			
 
-					std::cout << "Signal quality: ";
-					std::cout << cq;
+					std::cout << "Contact quality: ";
+					switch (cq) {
+						case IEEG_CQ_NO_SIGNAL : {cqInt = 0; cout << "NO SIGNAL"; break;}
+						case IEEG_CQ_VERY_BAD  : {cqInt = 1; cout << "VERY BAD"; break;}
+						case IEEG_CQ_POOR : {cqInt = 2; cout << "POOR"; break;}
+						case IEEG_CQ_FAIR : {cqInt = 3; cout << "FAIR"; break;}
+						case IEEG_CQ_GOOD : {cqInt = 4; cout << "GOOD"; break;}
+					}
+                    std::cout << " " << endl;
+
+					IEE_SignalStrength_t ws = IS_GetWirelessSignalStatus(eState);
+					int wsInt = 0;
+
+					std::cout << "\nWireless signal: ";
+					switch (ws) {
+						case NO_SIG : {wsInt = 0; cout << "NO SIGNAL"; break;}
+						case BAD_SIG  : {wsInt = 1; cout << "BAD"; break;}
+						case GOOD_SIG : {wsInt = 2; cout << "GOOD"; break;}
+					}
                     std::cout << std::endl << endl;
 
 					int emo = IS_PerformanceMetricIsActive(eState, PM_EXCITEMENT);
+
 					float excL = IS_PerformanceMetricGetExcitementLongTermScore(eState);
 					float exc = IS_PerformanceMetricGetInstantaneousExcitementScore(eState);
 					float rel =	IS_PerformanceMetricGetRelaxationScore(eState);
@@ -152,11 +175,12 @@ int  main()
 					cout<<"excitation LT "<<excL<<", exc "<<exc<<", relax "<<rel<<", stress "<<str
 						<<", engage/bored "<<eng<<", interest "<<itr<<", focus"<<foc<<endl;
 
-					
 					osc::OutboundPacketStream p( buffer, OUTPUT_BUFFER_SIZE );    
 					p << osc::BeginBundleImmediate
-						<< osc::BeginMessage( "/signal" ) 
-							<< cq << osc::EndMessage
+						<< osc::BeginMessage( "/contactSignal" ) 
+							<< cqInt << osc::EndMessage
+						<< osc::BeginMessage( "/wirelessSignal" ) 
+							<< wsInt << osc::EndMessage
 						<< osc::BeginMessage( "/eegtheta" ) 
 							<< (float)theta << osc::EndMessage
 						<< osc::BeginMessage( "/eeglowalpha" ) 
@@ -184,10 +208,24 @@ int  main()
 						<< osc::BeginMessage( "/focus" ) 
 							<< (float)foc << osc::EndMessage
 						<< osc::EndBundle;
-
     
 					transmitSocket.Send( p.Data(), p.Size() ); 
-                }
+					
+ //               } // end for
+
+				// attention = delta (alpha)
+				// imagination = avg (alpha)
+
+				float att = alpha - alphaB;
+				float img = (alpha + alphaB) / (low_beta + low_betaB);
+				osc::OutboundPacketStream pB( buffer, OUTPUT_BUFFER_SIZE );  
+				pB << osc::BeginBundleImmediate
+					<< osc::BeginMessage( "/attention" ) 
+						<< att << osc::EndMessage
+					<< osc::BeginMessage( "/imagination" ) 
+						<< img << osc::EndMessage
+					<< osc::EndBundle;
+				transmitSocket.Send( pB.Data(), pB.Size() ); 
             }
 		}
 
